@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         //     $settings = Setting::all()->pluck('value', 'key')->toArray();
             //  Log::info('Settings loaded from database', $settings);
         //     config(['settings' => $settings]);  // Load the settings dynamically into Laravel's config
-         }
+       //  }
 
         if ($this->app->environment('azure')) {
             URL::forceScheme('https');

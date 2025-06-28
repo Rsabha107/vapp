@@ -33,10 +33,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-         if (Schema::hasTable('settings')) {
-             $settings = Setting::all()->pluck('value', 'key')->toArray();
+        // if (Schema::hasTable('settings')) {
+        //     $settings = Setting::all()->pluck('value', 'key')->toArray();
             //  Log::info('Settings loaded from database', $settings);
-             config(['settings' => $settings]);  // Load the settings dynamically into Laravel's config
+        //     config(['settings' => $settings]);  // Load the settings dynamically into Laravel's config
          }
 
         if ($this->app->environment('azure')) {

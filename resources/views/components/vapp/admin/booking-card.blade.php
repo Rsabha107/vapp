@@ -76,10 +76,14 @@
     function bookingQueryParams(p) {
         return {
 
-            mds_schedule_event_filter: $("#mds_schedule_event_filter").val(),
-            mds_schedule_venue_filter: $("#mds_schedule_venue_filter").val(),
-            mds_schedule_rsp_filter: $("#mds_schedule_rsp_filter").val(),
-            mds_date_range_filter: $("#mds_date_range_filter").val(),
+            event_filter: $("#event_filter").val(),
+            venue_filter: $("#venue_filter").val(),
+            vapp_size_filter: $("#vapp_size_filter").val(),
+            fa_filter: $("#fa_filter").val(),
+            parking_filter: $("#parking_filter").val(),
+            variation_filter: $("#variation_filter").val(),
+            date_range_filter: $("#date_range_filter").val(),
+            status_filter: $("#status_filter").val(),
             page: p.offset / p.limit + 1,
             limit: p.limit,
             sort: p.sort,

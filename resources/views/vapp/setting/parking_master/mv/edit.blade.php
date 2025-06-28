@@ -44,16 +44,11 @@
                 <x-formy.form_textarea class="col-sm-6 col-md-12" floating="1" inputValue="{{ $parking->description }}"
                     name="description" elementId="edit_description" inputType="text" label="Description" required="required" disabled="0" inputAttributes="" />
             </div>
-            {{-- <div class="row mb-3">
+            <div class="row mb-3">
                 <x-formy.form_input class="col-sm-6 col-md-12" floating="1" inputValue="{{ $parking->vapp_color }}"
                     name="vapp_color" elementId="edit_color" inputType="text" label="Color" required="required" disabled="0" inputAttributes="" />
             </div>
-            <div class="row mb-3">
-                <x-formy.select_multiple class="col-md-12 mb-3" name="fa_id[]" elementId="edit_fa_id"
-                    label="FA assignment (multiple)" :forLoopCollection="$functionalAreas" itemIdForeach="id"
-                    itemTitleForeach="title" required="" style="width: 100%" edit="1"
-                    :baseModel="$parking" relation="functional_areas" />
-            </div> --}}
+
             <div class="col-12 gy-3">
                 <div class="row g-3 justify-content-end">
                     <a href="javascript:void(0)" class="col-auto">
@@ -64,7 +59,7 @@
                         </button>
                     </a>
                     <div class="col-auto">
-                        <button class="btn btn-primary px-5 px-sm-15" id="submit_btn">Save</button>
+                        <button class="btn btn-primary px-5 px-sm-10" id="submit_btn">Save</button>
                     </div>
                 </div>
             </div>

@@ -34,10 +34,10 @@
                                 name="description" elementId="add_description" inputType="text" label="Description"
                                 required="required" disabled="0" inputAttributes="" />
                         </div>
-                        {{-- <div class="row mb-3">
+                        <div class="row mb-3">
                             <x-formy.form_input class="col-sm-6 col-md-12" floating="1" inputValue=""
                                 name="vapp_color" elementId="add_color" inputType="text" label="Color" required="required" disabled="0" inputAttributes="" />
-                        </div> --}}
+                        </div>
                         {{-- <div class="row mb-3"> --}}
                         {{-- <x-formy.select_multiple class="col-md-12 mb-3" name="fa_id[]" elementId="add_fa_id"
                             label="FA assignment (multiple)" :forLoopCollection="$functionalAreas" itemIdForeach="id" edit="0"
@@ -53,7 +53,7 @@
                                     </button>
                                 </a>
                                 <div class="col-auto">
-                                    <button class="btn btn-primary px-5 px-sm-15" id="submit_btn">Save</button>
+                                    <button class="btn btn-primary px-5 px-sm-10" id="submit_btn">Save</button>
                                 </div>
                             </div>
                         </div>

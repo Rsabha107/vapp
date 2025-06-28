@@ -23,6 +23,7 @@ use App\Models\Vapp\ParkingMaster;
 use App\Models\Vapp\VappInventory;
 use App\Models\Vapp\VappRequest;
 use App\Models\Vapp\VappRequestStatus;
+use App\Models\Vapp\VappSize;
 use App\Models\Vapp\VappVariation;
 use App\Models\Vapp\VehicleType;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -51,18 +52,25 @@ class BookingController extends Controller
         // $current_event_id = session()->get('EVENT_ID');
 
         // $bookings = DeliveryBooking::where('event_id', '=', $current_event_id)->get();
-        $bookings = DeliveryBooking::all();
+        // $bookings = DeliveryBooking::all();
         // $intervals = DeliverySchedulePeriod::all();
         $events = Event::all();
         $venues = Venue::all();
         $statuses = VappRequestStatus::all();
+        $variations = VappVariation::all();
+        $parkings = ParkingMaster::all();
+        $vapp_sizes = VappSize::all();
+        $fas = FunctionalArea::all();
 
-        return view('vapp.admin.booking.list', compact(
-            'bookings',
-            'events',
-            'venues',
-            'statuses',
-        ));
+        return view('vapp.admin.booking.list', [
+            'events' => $events,
+            'venues' => $venues,
+            'statuses' => $statuses,
+            'parkings' => $parkings,
+            'vapp_sizes' => $vapp_sizes,
+            'variations' => $variations,
+            'fas' => $fas
+        ]);
     }
 
     public function dashboard()
@@ -78,10 +86,14 @@ class BookingController extends Controller
         $search = request('search');
         $sort = (request('sort')) ? request('sort') : "id";
         $order = (request('order')) ? request('order') : "DESC";
-        $mds_schedule_event_filter = (request()->mds_schedule_event_filter) ? request()->mds_schedule_event_filter : "";
-        $mds_schedule_venue_filter = (request()->mds_schedule_venue_filter) ? request()->mds_schedule_venue_filter : "";
-        $mds_schedule_rsp_filter = (request()->mds_schedule_rsp_filter) ? request()->mds_schedule_rsp_filter : "";
-        $mds_date_range_filter = (request()->mds_date_range_filter) ? request()->mds_date_range_filter : "";
+        $event_filter = (request()->event_filter) ? request()->event_filter : "";
+        $venue_filter = (request()->venue_filter) ? request()->venue_filter : "";
+        $parking_filter = (request()->parking_filter) ? request()->parking_filter : "";
+        $status_filter = (request()->status_filter) ? request()->status_filter : "";
+        $vapp_size_filter = (request()->vapp_size_filter) ? request()->vapp_size_filter : "";
+        $fa_filter = (request()->fa_filter) ? request()->fa_filter : "";
+        $variation_filter = (request()->variation_filter) ? request()->variation_filter : "";
+        $date_range_filter = (request()->date_range_filter) ? request()->date_range_filter : "";
 
         // if ($mds_date_range_filter == "") {
         //     $mds_date_range_filter = date('Y-m-d') . ' to ' . date('Y-m-d');
@@ -153,20 +165,36 @@ class BookingController extends Controller
         }
 
 
-        if ($mds_schedule_event_filter) {
-            $ops = $ops->where('event_id', $mds_schedule_event_filter);
+        if ($event_filter) {
+            $ops = $ops->where('event_id', $event_filter);
         }
 
-        if ($mds_schedule_venue_filter) {
-            $ops = $ops->where('venue_id', $mds_schedule_venue_filter);
+        if ($venue_filter) {
+            $ops = $ops->where('venue_id', $venue_filter);
         }
 
-        if ($mds_schedule_rsp_filter) {
-            $ops = $ops->where('rsp_id', $mds_schedule_rsp_filter);
+        if ($parking_filter) {
+            $ops = $ops->where('parking_id', $parking_filter);
         }
 
-        if ($mds_date_range_filter) {
-            $dates = explode('to', $mds_date_range_filter);
+        if ($status_filter) {
+            $ops = $ops->where('request_status_id', $status_filter);
+        }
+
+        if ($variation_filter) {
+            $ops = $ops->where('variation_id', $variation_filter);
+        }
+
+        if ($vapp_size_filter) {
+            $ops = $ops->where('vapp_size_id', $vapp_size_filter);
+        }
+
+        if ($fa_filter) {
+            $ops = $ops->where('vapp_functional_area_id', $fa_filter);
+        }
+
+        if ($date_range_filter) {
+            $dates = explode('to', $date_range_filter);
             $startDate = trim($dates[0]);
             if (count($dates) > 1) {
                 $endDate = trim($dates[1]);
@@ -181,11 +209,11 @@ class BookingController extends Controller
             }
 
             if ($startDate && $endDate) {
-                $ops = $ops->whereBetween('booking_date', [$startDate, $endDate]);
+                $ops = $ops->whereBetween('request_date', [$startDate, $endDate]);
             } else if ($startDate) {
-                $ops = $ops->where('booking_date', '>=', $startDate);
+                $ops = $ops->where('request_date', '>=', $startDate);
             } else if ($endDate) {
-                $ops = $ops->where('booking_date', '<=', $endDate);
+                $ops = $ops->where('request_date', '<=', $endDate);
             }
         }
 
@@ -624,7 +652,7 @@ class BookingController extends Controller
             $op->vapp_functional_area_id = $request->var_functional_area_id;
             $op->requested_vapps = $request->requested_vapps;
             $op->approved_vapps = 0;
-            $op->request_date = now();
+            $op->request_date = now()->toDateString();
 
             // // $op->requested_vapp_a5 = $request->requested_vapp_a5;
             // $request->requested_vapp_a5 ? $op->requested_vapp_a5 = $request->requested_vapp_a5 : $op->requested_vapp_a5 = 0;
@@ -769,13 +797,15 @@ class BookingController extends Controller
         $variation = VappVariation::with('inventory', 'vapp_sizes')
             ->where('id', $vapp->variation_id)
             ->where('venue_id', $vapp->venue_id)
-            ->where('event_id', session()->get('EVENT_ID'))
+            // ->where('event_id', session()->get('EVENT_ID'))
+            ->where('event_id', $vapp->event_id)
             ->first();
 
         Log::info('BookingController::showRequest variation: ' . $variation);
 
         $inventory = VappInventory::where('variation_id', $vapp->variation_id)
-            ->where('event_id', session()->get('EVENT_ID'))
+            // ->where('event_id', session()->get('EVENT_ID'))
+            ->where('event_id', $vapp->event_id)
             ->where('venue_id', $vapp->venue_id)
             ->where('parking_id', $vapp->parking_id)
             ->where('vapp_size_id', $vapp->vapp_size_id)

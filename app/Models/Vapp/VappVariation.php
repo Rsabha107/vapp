@@ -12,6 +12,10 @@ class VappVariation extends Model
     protected $guarded = [];
     protected $table = 'vapp_variations';
 
+    public function getVarIdAttribute()
+    {
+        return 'VAR-' . $this->id;
+    }
 
     public function event()
     {

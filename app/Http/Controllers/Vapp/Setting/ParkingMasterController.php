@@ -155,6 +155,7 @@ class ParkingMasterController extends Controller
                 'description' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->description . '</div>',
                 'vapp_size' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $vapp_size_display . '</div>',
                 // 'vapp_color' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->vapp_color . '</div>',
+                'vapp_color' => '<div style="width: 40px; height: 20px; background-color: '. $op->vapp_color .'; border: 1px solid #ccc;"></div>',
                 // 'fa' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $fa_display . '</div>',
                 'actions' => $actions,
                 'created_at' => format_date($op->created_at,  'H:i:s'),

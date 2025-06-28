@@ -39,8 +39,8 @@
                             <th data-sortable="true" data-field="parking_code">Parking Code</th>
                             <th data-sortable="true" data-field="description">Description</th>
                             <th data-sortable="true" data-field="vapp_size">VAPP Size</th>
-                            {{-- <th data-sortable="true" data-field="vapp_color">VAPP Color</th>
-                            <th data-sortable="true" data-field="fa">FA</th> --}}
+                            <th data-sortable="true" data-field="vapp_color">VAPP Color</th>
+                            {{-- <th data-sortable="true" data-field="fa">FA</th> --}}
                             <th data-sortable="true" data-field="created_at" data-visible="false"><?= get_label('created_at', 'Created at') ?></th>
                             <th data-sortable="true" data-field="updated_at" data-visible="false"><?= get_label('updated_at', 'Updated at') ?></th>
                             <th data-sortable="false" data-field="actions" data-visible="true">Actions</th>

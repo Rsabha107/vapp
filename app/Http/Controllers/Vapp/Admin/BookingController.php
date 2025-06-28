@@ -478,6 +478,19 @@ class BookingController extends Controller
         }
     }
 
+    //get the color from parking code
+    public function getParkingColor(Request $request)
+    {
+        // Log::info('inside getParkingColor');
+        // Log::info($request->all());
+        $parking = ParkingMaster::find($request->parking_id);
+        if ($parking) {
+            return response()->json(['parking_color' => $parking->vapp_color]);
+        } else {
+            return response()->json(['parking_color' => null]);
+        }
+    }
+
     // get all distinct venues from vapp variations based on the parking code
     // public function getVenuesFromVappCode($id = null)
     // {
@@ -792,6 +805,8 @@ class BookingController extends Controller
 
         Log::info('BookingController::showRequest id: ' . $id);
         $vapp = VappRequest::findOrFail($id);
+        // dd($vapp);
+        $requestStatus = VappRequestStatus::all();
         // dd($op);
         Log::info('BookingController::showRequest vapp: ' . json_encode($vapp));
         $variation = VappVariation::with('inventory', 'vapp_sizes')
@@ -836,6 +851,7 @@ class BookingController extends Controller
             'inventory',
             'inv_total_collected_vaps',
             'inv_total_available_vaps',
+            'requestStatus',
         ));
     }
 
@@ -847,6 +863,7 @@ class BookingController extends Controller
 
         $rules = [
             'approved_vapps' => 'required',
+            'request_status_id' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -865,6 +882,7 @@ class BookingController extends Controller
             Log::info('BookingController::saveRequest: ' . json_encode($request->all()));
 
             $op->approved_vapps = $request->approved_vapps;
+            $op->request_status_id = $request->request_status_id;
             // $op->updated_by = $user_id;
             $op->save();
         }

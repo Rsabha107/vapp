@@ -58,12 +58,38 @@ $(document).ready(function () {
         var varParkingId = $(this).val();
         console.log("Selected VAPP Code:", varParkingId);
         // const selectedVappCode = vappVenueSelect.value;
-        $(".main-card").css("background-color", "rgba(52, 152, 219, 0.6)");
+        // $(".main-card").css("background-color", "rgba(52, 152, 219, 0.6)");
         $("#add_requested_vapp_a5").prop("disabled", true);
         $("#add_requested_vapp_a4").prop("disabled", true);
         $("#add_requested_vapp_20").prop("disabled", true);
         $("#add_requested_vapp_hanger").prop("disabled", true);
 
+        if (varParkingId) {
+            $.ajax({
+                url: "/get-parking-color",
+                type: "GET",
+                data: {
+                    parking_id: varParkingId,
+                    // match_id: varMatchId,
+                },
+                success: function (data) {
+                    console.log("data", data);
+                    $(".main-card").css(
+                        "background-color",
+                        data.parking_color
+                            ? data.parking_color
+                            : "rgba(52, 152, 219, 0.6)"
+                    );
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                    toastr.error(thrownError);
+                },
+            });
+        } else {
+            null;
+        }
         // if (varParkingId) {
         //     $.ajax({
         //         url: "/get-catergory",

@@ -47,24 +47,29 @@
             </div>
 
             <div class="row mb-2">
-                <div class="col-md-4">
+                <div class="col-sm-6 col-md-3">
                     <label class="form-label">VAPP Size</label>
                     <select class="form-select">
                         <option value="LMA" selected>{{ $vapp->vapp_size->title }}</option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <label  class="form-label"># Requested</label>
+                <div class="col-sm-6 col-md-3">
+                    <label class="form-label"># Requested</label>
                     <input type="text" class="form-control" readonly value="{{ $vapp->requested_vapps }}">
                 </div>
-                <div class="col-md-4">
-                    <label  class="form-label"># Approved</label>
+                <div class="col-sm-6 col-md-3">
+                    <label class="form-label"># Approved</label>
                     <input name="approved_vapps" type="number" class="form-control" value="{{ $vapp->approved_vapps }}">
                 </div>
+                <x-formy.form_select class="col-sm-6 col-md-3" floating="0" selectedValue="{{ $vapp->request_status_id }}"
+                    name="request_status_id" elementId="add_var_request_status_id" label="Request Satus"
+                    required="required" :forLoopCollection="$requestStatus" itemIdForeach="id"
+                    itemTitleForeach="title" style="" addDynamicButton="0" />
+
             </div>
 
             <div class="mb-2">
-                <label  class="form-label">Justification</label>
+                <label class="form-label">Justification</label>
                 <textarea class="form-control" rows="2" readonly>{{ $vapp->justification }}</textarea>
             </div>
 

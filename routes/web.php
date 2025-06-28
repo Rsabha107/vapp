@@ -112,6 +112,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/get-matches', 'getMatchesFromMatchCategory')->name('vapp.admin.booking.get.matches');
             Route::get('/get-venues', 'getVenuesFromMatch')->name('vapp.admin.booking.get.venues');
             Route::get('/get-variation', 'getVariation')->name('vapp.admin.booking.get.variation');
+            Route::get('/get-parking-color', 'getParkingColor')->name('vapp.admin.parking.get.color');
 
             // update booking status
             Route::post('/vapp/admin/booking/status/update', 'updateStatus')->name('vapp.admin.booking.status.update');

@@ -194,6 +194,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             
             // functional areas and vapp sizes associated with parking code
             Route::get('/vapp/setting/parking/code/functional_areas/{id}', 'getAssicatedFunctionalAreas')->name('vapp.setting.parking.code.functional_areas');
+            Route::get('vapp_get_parking_code_from_event/{id}', 'getParkingCodeFromEvent')->name('vapp.setting.parking.code.get_from_event');
 
         });
 

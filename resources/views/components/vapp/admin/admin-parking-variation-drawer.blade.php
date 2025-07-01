@@ -17,19 +17,31 @@
                     </div>
                     <div class="card-body">
                         <div class="row mb-3">
-                            <x-formy.form_select class="col-sm-6 col-md-12" floating="1"
-                                selectedValue="{{ $globalEventId }}" name="event_id" elementId="add_event_id"
+                            <x-formy.form_select class="col-sm-6 col-md-12" floating="0"
+                                selectedValue="" name="event_id" elementId="add_event_id"
                                 label="Event" required="required" :forLoopCollection="$events" itemIdForeach="id"
                                 itemTitleForeach="name" style="" addDynamicButton="0" />
                         </div>
                         <div class="row mb-3">
+                            <div class="col-sm-6 col-md-12">
+                                <label class="form-label" for="add_parking_id">VAPP Code</label>
+                                <select class="form-select" id="add_parking_id" name="parking_id" data-width="100%"
+                                    data-placeholder="Select VAPP Code...">
+                                    <option value="">Select VAPP Code</option>
+                                    <!-- Options loaded dynamically -->
+                                </select>
+                            </div>
+                        </div>
+
+                        {{-- <div class="row mb-3">
                             <x-formy.form_select class="col-sm-6 col-md-12" floating="1" selectedValue=""
                                 name="parking_id" elementId="add_parking_id" label="VAPP Code" required="required"
                                 :forLoopCollection="$parkings" itemIdForeach="id" itemTitleForeach="parking_code" style=""
                                 addDynamicButton="0" />
-                        </div>
+                        </div> --}}
+
                         <div class="row mb-3">
-                            <x-formy.form_select class="col-sm-6 col-md-12" floating="1" selectedValue=""
+                            <x-formy.form_select class="col-sm-6 col-md-12" floating="0" selectedValue=""
                                 name="match_category_id" elementId="add_match_category_id" label="Match Code"
                                 required="required" :forLoopCollection="$matchCategories" itemIdForeach="id" itemTitleForeach="title"
                                 style="" addDynamicButton="0" />
@@ -42,10 +54,9 @@
                         </div> --}}
 
                         <div class="row mb-3">
-                            <x-formy.select_multiple class="col-sm-6 col-md-12" name="fa_id[]"
-                                elementId="add_fa_id" label="Functional Area assignment (multiple)" :forLoopCollection="$functionalAreas"
-                                itemIdForeach="id" itemTitleForeach="title" required="" style="width: 100%"
-                                edit="0" />
+                            <x-formy.select_multiple class="col-sm-6 col-md-12" name="fa_id[]" elementId="add_fa_id"
+                                label="Functional Area assignment (multiple)" :forLoopCollection="$functionalAreas" itemIdForeach="id"
+                                itemTitleForeach="title" required="" style="width: 100%" edit="0" />
                         </div>
 
                         {{-- <div class="row mb-3">
@@ -88,9 +99,8 @@
                         <div class="col-12 gy-3">
                             <div class="row g-3 justify-content-end">
                                 <a href="javascript:void(0)" class="col-auto">
-                                    <button type="button" class="btn btn-phoenix-danger px-5"
-                                        data-bs-toggle="tooltip" data-bs-placement="right"
-                                        data-bs-dismiss="offcanvas">
+                                    <button type="button" class="btn btn-phoenix-danger px-5" data-bs-toggle="tooltip"
+                                        data-bs-placement="right" data-bs-dismiss="offcanvas">
                                         Cancel
                                     </button>
                                 </a>

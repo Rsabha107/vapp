@@ -64,6 +64,43 @@ $(document).ready(function () {
         }
     });
 
+    $(".js-select-event-assign-multiple-edit_fa_id").on("change", function (e) {
+        let selected = $(this).val();
+
+        console.log("Selected Functional Areas:", selected);
+
+        if (selected.includes("0")) {
+            // Select all options
+            console.log("Selecting 'All' option");
+            $(".js-select-event-assign-multiple-edit_fa_id > option").prop(
+                "selected",
+                true
+            );
+            $(".js-select-event-assign-multiple-edit_fa_id").trigger(
+                "change.select2"
+            );
+        } else if (
+            !selected.includes("0") &&
+            selected.length <
+                $(".js-select-event-assign-multiple-edit_fa_id option").length -
+                    1
+        ) {
+            // If "All" was previously selected and now deselected
+
+            console.log("Deselecting 'All' option");
+            $(
+                '.js-select-event-assign-multiple-edit_fa_id > option[value="0"]'
+            ).prop("selected", false);
+            $(".js-select-event-assign-multiple-edit_fa_id").trigger(
+                "change.select2"
+            );
+        } else {
+            console.log("Deselecting all options except '0'");
+            const newSelection = selected.filter((val) => val !== "0");
+            $("#mySelect").val(newSelection).trigger("change.select2");
+        }
+    });
+
     // $(".js-select-event-assign-multiple-add_vapp_size_id").select2({
     //     closeOnSelect: false,
     //     placeholder: "Select ...",
@@ -112,9 +149,91 @@ $(document).ready(function () {
             //     .val(null)
             //     .empty()
             //     .trigger("change");
-            $("#add_event_id").val(session_event_id);
+            // $("#add_event_id").val(session_event_id);
         }
     );
+
+    const vappParkingSelect = document.getElementById("add_parking_id");
+    const vappParkingChoices = new Choices(vappParkingSelect, {
+        searchEnabled: false,
+        shouldSort: false,
+        placeholder: true,
+        itemSelectText: "",
+        allowHTML: true,
+        // placeholderValue: "Select VAPP Codes",
+    });
+
+    $("#add_event_id, #edit_event_id").on("change", function () {
+        console.log("Event ID changed");
+        vappParkingChoices.clearStore();
+
+        const eventId = $(this).val();
+        if (eventId) {
+            console.log("Selected Event ID:", eventId);
+            $.ajax({
+                url: "/vapp_get_parking_code_from_event/" + eventId,
+                method: "GET",
+                async: true,
+                success: function (response) {
+                    console.log("response", response);
+                    $("#loadingOverlay").removeClass("d-none");
+                    // dynamically populate the venues
+                    let vappParkingOptions = response.parkings.map(function (
+                        parking
+                    ) {
+                        return new Option(
+                            parking.parking_code,
+                            parking.id,
+                            false,
+                            false
+                        );
+                    });
+                    // $("#add_parking_id, #edit_parking_id")
+                    //     .empty("")
+                    //     .append(parking_options)
+                    //     .trigger("change");
+
+                    vappParkingChoices.clearStore();
+                    vappParkingChoices.setChoices(
+                        vappParkingOptions,
+                        "value",
+                        "label",
+                        true
+                    );
+
+                    $("#add_vapp_size_id, #edit_vapp_size_id")
+                        .empty()
+                        .trigger("change");
+
+                    // dynamically populate the vapp sizes
+                    // let vapp_size_options = response.vapp_sizes.map(function (vappSize) {
+                    //     return new Option(
+                    //         vappSize.title,
+                    //         vappSize.id,
+                    //         false,
+                    //         false
+                    //     );
+                    // });
+                    // $("#add_vapp_size_id, #edit_vapp_size_id")
+                    //     .empty("")
+                    //     .append(vapp_size_options)
+                    //     .trigger("change");
+
+                    $("#loadingOverlay").addClass("d-none");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status);
+                    console.log(thrownError);
+                    $("#loadingOverlay").addClass("d-none");
+                },
+            });
+        } else {
+            console.log("No Event ID selected");
+            $("#add_parking_id, #add_vapp_size_id").empty();
+            $("#add_parking_id, #add_vapp_size_id").val(null).trigger("change");
+            $("#loadingOverlay").addClass("d-none");
+        }
+    });
 
     $("#add_parking_id, #edit_parking_id").on("change", function () {
         const parkingMasterId = $(this).val();
@@ -181,7 +300,7 @@ $(document).ready(function () {
             });
         } else {
             console.log("No Parking Type ID selected");
-            $("#add_fa_id, #add_vapp_size_id").empty();
+            // $("#add_fa_id, #add_vapp_size_id").empty();
             $("#add_fa_id, #add_vapp_size_id").val(null).trigger("change");
             $("#cover-spin").hide();
         }
@@ -341,6 +460,7 @@ $(document).ready(function () {
         itemSelectText: "",
         // placeholderValue: "Select VAPP Sizes",
     });
+
     // Show ADD Inventroy Variation offcanvas
     $("body").on("click", "#add_inventory_to_variation", function () {
         console.log("inside #add_inventory_to_variation ....");

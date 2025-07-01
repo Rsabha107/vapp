@@ -105,6 +105,10 @@
     <!-- ===============================================-->
     <main class="main" id="top">
 
+        <div id="loadingOverlay" class="loading-overlay d-none">
+            <div class="spinner"></div>
+        </div>
+
         <x-vapp.admin.sidemenu />
         @include('vapp.admin.body.header')
 
@@ -237,7 +241,7 @@
         })
 
         console.log('before toastr');
-        
+
         @if(Session::has('message'))
         toastr.options = {
             "closeButton": true,

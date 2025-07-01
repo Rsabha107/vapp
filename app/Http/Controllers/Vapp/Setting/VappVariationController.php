@@ -496,4 +496,17 @@ class VappVariationController extends Controller
         // return response()->json(['associated_fa' => $functional_areas]);
     }  // End function getAssicatedFunctionalAreas
 
+    public function getParkingCodeFromEvent($id)
+    {
+        $parkingMaster = ParkingMaster::where('event_id', $id)->get();
+        // $functional_areas = $parkingMaster->functional_areas;
+
+        return response()->json([
+            'parkings' => $parkingMaster,
+            // 'vapp_sizes' => $parkingMaster->vapp_sizes,
+        ]);
+        // return response()->json(['associated_fa' => $functional_areas]);
+    }  // End function getParkingCodeFromEvent
+
+
 }

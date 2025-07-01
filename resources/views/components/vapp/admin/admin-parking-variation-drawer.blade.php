@@ -30,9 +30,9 @@
                         </div>
                         <div class="row mb-3">
                             <x-formy.form_select class="col-sm-6 col-md-12" floating="1" selectedValue=""
-                                name="match_category_id" elementId="add_match_category_id" label="Match Code" required="required"
-                                :forLoopCollection="$matchCategories" itemIdForeach="id" itemTitleForeach="title" style=""
-                                addDynamicButton="0" />
+                                name="match_category_id" elementId="add_match_category_id" label="Match Code"
+                                required="required" :forLoopCollection="$matchCategories" itemIdForeach="id" itemTitleForeach="title"
+                                style="" addDynamicButton="0" />
                         </div>
                         {{-- <div class="row mb-3">
                             <x-formy.select_multiple class="col-sm-6 col-md-12" name="match_id[]"
@@ -42,15 +42,23 @@
                         </div> --}}
 
                         <div class="row mb-3">
+                            <x-formy.select_multiple class="col-sm-6 col-md-12" name="fa_id[]"
+                                elementId="add_fa_id" label="Functional Area assignment (multiple)" :forLoopCollection="$functionalAreas"
+                                itemIdForeach="id" itemTitleForeach="title" required="" style="width: 100%"
+                                edit="0" />
+                        </div>
+
+                        {{-- <div class="row mb-3">
                             <div class="col-sm-6 col-md-12">
-                                <label class="form-label" for="add_venue_id">Functional Area assignment (multiple)</label>
+                                <label class="form-label" for="add_venue_id">Functional Area assignment
+                                    (multiple)</label>
                                 <select class="form-select js-select-event-assign-multiple-add_fa_id" id="add_fa_id"
                                     name="fa_id[]" multiple="multiple" data-with="100%"
                                     data-placeholder="Select Fuctional Area...">
                                     <!-- Options loaded dynamically -->
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="row mb-3">
                             <x-formy.select_multiple class="col-sm-6 col-md-12" name="venue_id[]"
@@ -62,8 +70,8 @@
                         <div class="row mb-3">
                             <div class="col-sm-6 col-md-12">
                                 <label class="form-label" for="add_vapp_size_id">VAPP Size assignment (multiple)</label>
-                                <select class="form-select js-select-event-assign-multiple-add_vapp_size_id" id="add_vapp_size_id"
-                                    name="vapp_size_id[]" multiple="multiple" data-with="100%"
+                                <select class="form-select js-select-event-assign-multiple-add_vapp_size_id"
+                                    id="add_vapp_size_id" name="vapp_size_id[]" multiple="multiple" data-with="100%"
                                     data-placeholder="VAPP Size assignment (multiple)...">
                                     <!-- Options loaded dynamically -->
                                 </select>
@@ -80,8 +88,9 @@
                         <div class="col-12 gy-3">
                             <div class="row g-3 justify-content-end">
                                 <a href="javascript:void(0)" class="col-auto">
-                                    <button type="button" class="btn btn-phoenix-danger px-5" data-bs-toggle="tooltip"
-                                        data-bs-placement="right" data-bs-dismiss="offcanvas">
+                                    <button type="button" class="btn btn-phoenix-danger px-5"
+                                        data-bs-toggle="tooltip" data-bs-placement="right"
+                                        data-bs-dismiss="offcanvas">
                                         Cancel
                                     </button>
                                 </a>

@@ -221,6 +221,7 @@ class BookingController extends Controller
         $ops = $ops->paginate(request("limit"))->through(function ($op) {
 
             // $location = Location::find($booking->location_id);
+            $details_url = route('vapp.admin.booking.request', $op->id);
 
             $actions =
                 // '<div class="font-sans-serif btn-reveal-trigger position-static">' .
@@ -232,7 +233,7 @@ class BookingController extends Controller
                 // $op->id .
                 // '" data-table="bookings_table" data-bs-toggle="tooltip" data-bs-placement="right" title="Generate Pass">' .
                 // '<i class="fas fa-passport text-success"></i></a>' .
-                '<a href="' . route('vapp.admin.booking.edit', $op->id) . '" class="btn btn-sm" id="editBooking" data-id="' .
+                '<a href="' . $details_url . '" class="btn btn-sm" id="editBooking" data-id="' .
                 $op->id .
                 '" data-table="bookings_table" data-bs-toggle="tooltip" data-bs-placement="right" title="Update">' .
                 '<i class="fa-solid fa-pen-to-square text-primary"></i></a>' .
@@ -241,7 +242,6 @@ class BookingController extends Controller
                 '" id="deleteBooking" data-bs-toggle="tooltip" data-bs-placement="right" title="Delete">' .
                 '<i class="bx bx-trash text-danger"></i></a></div></div>';
 
-            $details_url = route('vapp.admin.booking.request', $op->id);
             $order_status =  '<span class="badge badge-phoenix fs--2 badge-phoenix-' . $op->status->color . ' "><span class="badge-label" style="cursor: pointer;" id="editStatus" data-id="' . $op->id . '" data-table="bookings_table">' . $op->status->title . '</span><span class="ms-1" data-feather="x" style="height:12.8px;width:12.8px;"></span></span>';
             $approved_vapps = $op->approved_vapps ?? '0';
             return  [
@@ -713,22 +713,22 @@ class BookingController extends Controller
         // LOG::info('inside delete');
         $op = VappRequest::find($id);
 
-        $variation = VappVariation::with('inventory', 'vapp_sizes')
-            ->where('id', $op->variation_id)
-            ->where('event_id', session()->get('EVENT_ID'))
-            ->first();
+        // $variation = VappVariation::with('inventory', 'vapp_sizes')
+        //     ->where('id', $op->variation_id)
+        //     ->where('event_id', session()->get('EVENT_ID'))
+        //     ->first();
 
-        $a5 = $variation->inventory()->where('vapp_size_id', 36)->first();
-        $a5?->update(['total_vaps' => $a5->total_vaps + $op->requested_vapp_a5]);
+        // $a5 = $variation->inventory()->where('vapp_size_id', 36)->first();
+        // $a5?->update(['total_vaps' => $a5->total_vaps + $op->requested_vapp_a5]);
 
-        $a4 = $variation->inventory()->where('vapp_size_id', 37)->first();
-        $a4?->update(['total_vaps' => $a4->total_vaps + $op->requested_vapp_a4]);
+        // $a4 = $variation->inventory()->where('vapp_size_id', 37)->first();
+        // $a4?->update(['total_vaps' => $a4->total_vaps + $op->requested_vapp_a4]);
 
-        $a20 = $variation->inventory()->where('vapp_size_id', 38)->first();
-        $a20?->update(['total_vaps' => $a20->total_vaps + $op->requested_vapp_a20]);
+        // $a20 = $variation->inventory()->where('vapp_size_id', 38)->first();
+        // $a20?->update(['total_vaps' => $a20->total_vaps + $op->requested_vapp_a20]);
 
-        $hanger = $variation->inventory()->where('vapp_size_id', 39)->first();
-        $hanger?->update(['total_vaps' => $hanger->total_vaps + $op->requested_vapp_hanger]);
+        // $hanger = $variation->inventory()->where('vapp_size_id', 39)->first();
+        // $hanger?->update(['total_vaps' => $hanger->total_vaps + $op->requested_vapp_hanger]);
 
         $op->delete();
 

@@ -95,6 +95,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/vapp/admin/booking', 'index')->name('vapp.admin.booking');
             Route::get('/vapp/admin/booking/list', 'list')->name('vapp.admin.booking.list');
             Route::get('/vapp/admin/booking/create', 'create')->name('vapp.admin.booking.create');
+            Route::delete('/vapp/admin/booking/delete/{id}', 'delete')->name('vapp.admin.booking.delete');
             Route::get('/vapp/admin/booking/request/{id}', 'showRequest')->name('vapp.admin.booking.request');
             Route::post('/vapp/admin/booking/request/save', 'saveRequest')->name('vapp.admin.booking.request.save');
             Route::get('vapp/admin/booking/edit/{id}', 'edit')->name('vapp.admin.booking.edit');

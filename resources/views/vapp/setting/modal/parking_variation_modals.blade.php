@@ -11,7 +11,7 @@
     </a>
     <x-vapp.admin.admin-edit-parking-variation-drawer id="" formAction="{{ route('vapp.setting.parking.variation.update') }}"
         formId="edit_parking_variation_form"
-        :events="$events" :venues="$venues" :matchs="$matchs" :vappSizes="$vapp_sizes" :parkings="$parkings" 
+        :events="$events" :venues="$venues" :matchs="$matchs" :vappSizes="$vapp_sizes" :parkings="$parkings" :functionalAreas="$functional_areas" 
         :matchCategories="$match_categories"/>
 </div>
 
@@ -28,7 +28,7 @@
     </a>
     <x-vapp.admin.admin-parking-variation-drawer id="" formAction="{{ route('vapp.setting.parking.variation.store') }}"
         formId="add_parking_variation_form"
-        :events="$events" :venues="$venues" :matchs="$matchs" :vappSizes="$vapp_sizes" :parkings="$parkings" 
+        :events="$events" :venues="$venues" :matchs="$matchs" :vappSizes="$vapp_sizes" :parkings="$parkings" :functionalAreas="$functional_areas"
         :matchCategories="$match_categories"/>
 
 

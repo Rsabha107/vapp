@@ -181,6 +181,7 @@ class MatchController extends Controller
             }
 
             $op->match_code = $request->match_code;
+            $op->match_description = $request->match_description;
             if ($request->match_date == null) {
                 $op->match_date = Carbon::now()->toDateString();
             } else {
@@ -231,6 +232,7 @@ class MatchController extends Controller
             $op->venue_id = $request->venue_id;
             $op->event_id = $request->event_id;
             $op->match_code = $request->match_code;
+            $op->match_description = $request->match_description;
             $op->match_date = Carbon::createFromFormat('d/m/Y', $request->match_date)->toDateString();
             $op->updated_by = $user_id;
 

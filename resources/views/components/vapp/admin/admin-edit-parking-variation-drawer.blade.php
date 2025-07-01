@@ -27,9 +27,9 @@
                         </div>
                         <div class="row mb-3">
                             <x-formy.form_select class="col-sm-6 col-md-12" floating="1" selectedValue=""
-                                name="match_category_id" elementId="edit_match_category_id" label="Match Code" required="required"
-                                :forLoopCollection="$matchCategories" itemIdForeach="id" itemTitleForeach="title" style=""
-                                addDynamicButton="0" />
+                                name="match_category_id" elementId="edit_match_category_id" label="Match Code"
+                                required="required" :forLoopCollection="$matchCategories" itemIdForeach="id" itemTitleForeach="title"
+                                style="" addDynamicButton="0" />
                         </div>
 
                         {{-- <div class="row mb-3">
@@ -52,7 +52,7 @@
                                 </select>
                             </div>
                         </div> --}}
-                        <div class="row mb-3">
+                        {{-- <div class="row mb-3">
                             <div class="col-sm-6 col-md-12">
                                 <label class="form-label" for="edit_fa_id">Functioanl Area assignment (multiple)</label>
                                 <select class="form-select js-select-event-assign-multiple-edit_fa_id" id="edit_fa_id"
@@ -61,6 +61,12 @@
                                     <!-- Options loaded dynamically -->
                                 </select>
                             </div>
+                        </div> --}}
+
+                        <div class="row mb-3">
+                            <x-formy.select_multiple class="col-sm-6 col-md-12" name="fa_id[]" elementId="edit_fa_id"
+                                label="Functional Area assignment (multiple)" :forLoopCollection="$functionalAreas" itemIdForeach="id"
+                                itemTitleForeach="title" required="" style="width: 100%" edit="0" />
                         </div>
 
                         {{-- <div class="row mb-3">
@@ -78,9 +84,10 @@
 
                         <div class="row mb-3">
                             <div class="col-sm-6 col-md-12">
-                                <label class="form-label" for="edit_vapp_size_id">VAPP Size assignment (multiple)</label>
-                                <select class="form-select js-select-event-assign-multiple-edit_vapp_size_id" id="edit_vapp_size_id"
-                                    name="vapp_size_id[]" multiple="multiple" data-with="100%"
+                                <label class="form-label" for="edit_vapp_size_id">VAPP Size assignment
+                                    (multiple)</label>
+                                <select class="form-select js-select-event-assign-multiple-edit_vapp_size_id"
+                                    id="edit_vapp_size_id" name="vapp_size_id[]" multiple="multiple" data-with="100%"
                                     data-placeholder="VAPP Size assignment (multiple)...">
                                     <!-- Options loaded dynamically -->
                                 </select>

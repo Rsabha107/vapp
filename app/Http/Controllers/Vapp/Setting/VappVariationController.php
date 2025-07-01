@@ -34,6 +34,7 @@ class VappVariationController extends Controller
         $parkings = ParkingMaster::with('functional_areas')->get();
         $vapp_sizes = VappSize::all();
         $match_categories = MatchCategory::all();
+        $functional_areas = FunctionalArea::all();
 
         $p1Venues = Venue::whereHas('vapp_variations', function ($q) {
             $q->where('parking_id', '6');
@@ -67,6 +68,7 @@ class VappVariationController extends Controller
             'matchs' => $matchs,
             'parkings' => $parkings,
             'match_categories' => $match_categories,
+            'functional_areas' => $functional_areas,
         ]);
     }
 

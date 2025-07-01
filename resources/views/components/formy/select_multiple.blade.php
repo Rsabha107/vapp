@@ -18,6 +18,7 @@
     <select class="form-select js-select-event-assign-multiple-{{ $elementId }}" id="{{ $elementId }}"
         name="{{ $name }}[]" multiple="multiple" data-with="100%" {{ $required }} style="{{ $style }}"
         data-placeholder="Select {{ $label }}...">
+        {{-- <option value="0">All</option> --}}
         @foreach ($forLoopCollection as $item)
             <option value="{{ $item->$itemIdForeach }}">
                 {{ $item->$itemTitleForeach }}

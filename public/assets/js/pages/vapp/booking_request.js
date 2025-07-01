@@ -173,7 +173,7 @@ $(document).ready(function () {
                     console.log("data", data);
                     const vappMatchOptions = data.matches.map((item) => ({
                         value: item.id,
-                        label: item.match_code_date,
+                        label: item.match_code_date_description,
                         selected: item.match_code === "ALL" ? true : false,
                     }));
 

@@ -14,6 +14,7 @@ class MatchList extends Model
     protected $table = 'vapp_matches';
     protected $appends = [
         'match_code_date',
+        'match_code_date_description',
         'match_venue',
     ];
 
@@ -29,7 +30,12 @@ class MatchList extends Model
 
     public function getMatchCodeDateAttribute()
     {
-        return $this->match_code . ' - (' . format_date($this->match_date). ')';
+        return $this->match_code . ' - (' . format_date($this->match_date) . ')';
+    }
+
+    public function getMatchCodeDateDescriptionAttribute()
+    {
+        return $this->match_code . ' - (' . format_date($this->match_date) . ') - ' . $this->match_description;
     }
 
     public function getMatchVenueAttribute()

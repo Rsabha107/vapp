@@ -27,6 +27,43 @@ $(document).ready(function () {
         placeholder: "Select ...",
     });
 
+    $(".js-select-event-assign-multiple-add_fa_id").on("change", function (e) {
+        let selected = $(this).val();
+
+        console.log("Selected Functional Areas:", selected);
+
+        if (selected.includes("0")) {
+            // Select all options
+            console.log("Selecting 'All' option");
+            $(".js-select-event-assign-multiple-add_fa_id > option").prop(
+                "selected",
+                true
+            );
+            $(".js-select-event-assign-multiple-add_fa_id").trigger(
+                "change.select2"
+            );
+        } else if (
+            !selected.includes("0") &&
+            selected.length <
+                $(".js-select-event-assign-multiple-add_fa_id option").length -
+                    1
+        ) {
+            // If "All" was previously selected and now deselected
+
+            console.log("Deselecting 'All' option");
+            $(
+                '.js-select-event-assign-multiple-add_fa_id > option[value="0"]'
+            ).prop("selected", false);
+            $(".js-select-event-assign-multiple-add_fa_id").trigger(
+                "change.select2"
+            );
+        } else {
+            console.log("Deselecting all options except '0'");
+            const newSelection = selected.filter((val) => val !== "0");
+            $("#mySelect").val(newSelection).trigger("change.select2");
+        }
+    });
+
     // $(".js-select-event-assign-multiple-add_vapp_size_id").select2({
     //     closeOnSelect: false,
     //     placeholder: "Select ...",
@@ -38,10 +75,13 @@ $(document).ready(function () {
     // });
     // ************************************************** task venues
 
-    $('.js-select-event-assign-multiple-add_venue_id').on("change", function () {
-        const selectedVenueIds = $(this).val();
-        console.log("Selected Venue IDs:", selectedVenueIds);
-    });
+    $(".js-select-event-assign-multiple-add_venue_id").on(
+        "change",
+        function () {
+            const selectedVenueIds = $(this).val();
+            console.log("Selected Venue IDs:", selectedVenueIds);
+        }
+    );
 
     $("#offcanvas-add-parking-variation-modal").on(
         "hidden.bs.offcanvas",
@@ -89,20 +129,20 @@ $(document).ready(function () {
                 success: function (response) {
                     $("#cover-spin").show();
 
-                    functionalAreas = response.functional_areas;
+                    // functionalAreas = response.functional_areas;
                     vappSizes = response.vapp_sizes;
-                    matchs = response.matchs;
+                    // matchs = response.matchs;
 
                     console.log("response", response);
 
                     // dynamically populate the functional areas
-                    let fa_options = functionalAreas.map(function (fa) {
-                        return new Option(fa.title, fa.id, false, false);
-                    });
-                    $("#add_fa_id, #edit_fa_id")
-                        .empty("")
-                        .append(fa_options)
-                        .trigger("change");
+                    // let fa_options = functionalAreas.map(function (fa) {
+                    //     return new Option(fa.title, fa.id, false, false);
+                    // });
+                    // $("#add_fa_id, #edit_fa_id")
+                    //     .empty("")
+                    //     .append(fa_options)
+                    //     .trigger("change");
 
                     // dynamically populate the vapp sizes
                     let vapp_size_options = vappSizes.map(function (vappSize) {
@@ -183,17 +223,19 @@ $(document).ready(function () {
                     return new Option(fa.title, fa.id, false, false);
                 });
 
-                $("#edit_fa_id").empty("").append(fa_options).trigger("change");
-                $("#edit_vapp_size_id")
-                    .empty("")
-                    .append(size_options)
-                    .trigger("change");
+                // $("#edit_fa_id").empty("").append(fa_options).trigger("change");
+                // $("#edit_vapp_size_id")
+                //     .empty("")
+                //     .append(size_options)
+                //     .trigger("change");
 
                 $("#edit_variation_id").val(response.variation.id);
                 $("#edit_parking_id").val(response.variation.parking_id);
                 // $("#edit_match_id").val(response.variation.match_category_id);
                 $("#edit_event_id").val(response.variation.event_id);
-                $("#edit_match_category_id").val(response.variation.match_category_id);
+                $("#edit_match_category_id").val(
+                    response.variation.match_category_id
+                );
 
                 // select2 for Functional Areas
                 var functionalAreas = response.functional_areas.map(

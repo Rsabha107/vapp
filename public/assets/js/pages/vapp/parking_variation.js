@@ -343,10 +343,10 @@ $(document).ready(function () {
                 });
 
                 // $("#edit_fa_id").empty("").append(fa_options).trigger("change");
-                // $("#edit_vapp_size_id")
-                //     .empty("")
-                //     .append(size_options)
-                //     .trigger("change");
+                $("#edit_vapp_size_id")
+                    .empty("")
+                    .append(size_options)
+                    .trigger("change");
 
                 $("#edit_variation_id").val(response.variation.id);
                 $("#edit_parking_id").val(response.variation.parking_id);

@@ -69,10 +69,26 @@
                                     data-component-card="data-component-card">
                                     <div class="card-body p-3">
                                         <div class="row mb-3">
-                                            <x-formy.form_select class="col-sm-6 col-md-6" floating="0" selectedValue=""
+                                            <x-formy.form_select class="col-sm-6 col-md-12" floating="0" selectedValue=""
+                                                name="var_functional_area_id" elementId="add_var_functional_area_id"
+                                                label="Functional Area" required="required" :forLoopCollection="$userFa"
+                                                itemIdForeach="id" itemTitleForeach="title" style=""
+                                                addDynamicButton="0" />
+
+                                        </div>
+                                        <div class="row mb-3">
+                                            {{-- <x-formy.form_select class="col-sm-6 col-md-6" floating="0" selectedValue=""
                                                 name="parking_id" elementId="add_var_parking_id" label="VAPP Code"
                                                 required="required" :forLoopCollection="$varParkingCode" itemIdForeach="id"
-                                                itemTitleForeach="parking_code" style="" addDynamicButton="0" />
+                                                itemTitleForeach="parking_code" style="" addDynamicButton="0" /> --}}
+                                            <div class="col-sm-6 col-md-6">
+                                                <label class="form-label" for="add_var_parking_id">VAPP Code</label>
+                                                <select class="form-select" id="add_var_parking_id" name="parking_id"
+                                                    data-with="100%" data-placeholder="Select VAPP Size...">
+                                                    <option value="">Select VAPP Code</option>
+                                                    <!-- Options loaded dynamically -->
+                                                </select>
+                                            </div>
 
                                             <x-formy.form_select class="col-sm-6 col-md-6" floating="0" selectedValue=""
                                                 name="match_category_id" elementId="add_var_category_id" label="Category"
@@ -80,6 +96,7 @@
                                                 itemTitleForeach="title" style="" addDynamicButton="0" />
                                         </div>
                                         <div class="row mb-3">
+
                                             <div class="col-sm-6 col-md-12">
                                                 <label class="form-label" for="add_var_match_id">Match</label>
                                                 <select class="form-select" id="add_var_match_id" name="match_id"
@@ -91,7 +108,7 @@
                                         </div>
                                         {{-- </div> --}}
                                         <div class="row mb-3">
-                                            <div class="col-sm-6 col-md-6">
+                                            <div class="col-sm-6 col-md-12">
                                                 <label class="form-label" for="add_var_venue_id">Venue</label>
                                                 <select class="form-select" id="add_var_venue_id" name="venue_id"
                                                     data-with="100%" data-placeholder="Select VAPP Size...">
@@ -101,7 +118,7 @@
                                             </div>
                                             {{-- </div> --}}
                                             {{-- <div class="row mb-3"> --}}
-                                            <div class="col-sm-6 col-md-6">
+                                            {{-- <div class="col-sm-6 col-md-6">
                                                 <label class="form-label" for="add_var_match_id">Functional Area</label>
                                                 <select class="form-select" id="add_var_functional_area_id"
                                                     name="var_functional_area_id" data-with="100%"
@@ -109,7 +126,7 @@
                                                     <option value="">Select FA</option>
                                                     <!-- Options loaded dynamically -->
                                                 </select>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-sm-6 col-md-6">
@@ -123,7 +140,8 @@
                                             <div class="col-sm-6 col-md-6">
                                                 <label class="form-label" for="add_requested_vapps"># VAPPS
                                                 </label>
-                                                <input class="form-control" id="add_requested_vapps" name="requested_vapps" type="number"
+                                                <input class="form-control" id="add_requested_vapps"
+                                                    name="requested_vapps" type="number"
                                                     placeholder="Quantity of Vapps requested" requered />
                                             </div>
 
@@ -213,22 +231,22 @@
 
     <!-- Confirm Modal -->
     <!-- <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                                                                                                        <div class="modal-dialog modal-dialog-centered">
-                                                                                                            <div class="modal-content">
-                                                                                                                <div class="modal-header">
-                                                                                                                    <h5 class="modal-title" id="confirmModalLabel">Order Placed</h5>
-                                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                                                </div>
-                                                                                                                <div class="modal-body">Congratulations! Your order is placed.</div>
-                                                                                                                <div id="jsonOutput"></div>
-                                                                                                                <div class="modal-footer">
-                                                                                                                    <button type="button" class="btn btn-primary" onclick="closeModal()">
-                                                                                                                        Ok, close and reset
-                                                                                                                    </button>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                    </div> -->
+                                                                                                                        <div class="modal-dialog modal-dialog-centered">
+                                                                                                                            <div class="modal-content">
+                                                                                                                                <div class="modal-header">
+                                                                                                                                    <h5 class="modal-title" id="confirmModalLabel">Order Placed</h5>
+                                                                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                                                                </div>
+                                                                                                                                <div class="modal-body">Congratulations! Your order is placed.</div>
+                                                                                                                                <div id="jsonOutput"></div>
+                                                                                                                                <div class="modal-footer">
+                                                                                                                                    <button type="button" class="btn btn-primary" onclick="closeModal()">
+                                                                                                                                        Ok, close and reset
+                                                                                                                                    </button>
+                                                                                                                                </div>
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div> -->
 
     <script src="{{ asset('assets/js/pages/vapp/booking_request.js') }}"></script>
 @endsection

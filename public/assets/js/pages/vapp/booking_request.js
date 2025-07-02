@@ -40,6 +40,18 @@ $(document).ready(function () {
         // placeholderValue: "Select VAPP Codes",
     });
 
+    // initialize Choices.js for the Parking Code select element
+    const vappParkingCodeSelect = document.getElementById("add_var_parking_id");
+    const vappParkingCodeChoices = new Choices(vappParkingCodeSelect, {
+        searchEnabled: false,
+        shouldSort: false,
+        placeholder: true,
+        itemSelectText: "",
+        allowHTML: true,
+
+        // placeholderValue: "Select VAPP Codes",
+    });
+
     // initialize Choices.js for the FunctionalArea select element
     const vappFunctionalAreaSelect = document.getElementById(
         "add_var_functional_area_id"
@@ -144,6 +156,75 @@ $(document).ready(function () {
     });
 
     // Handle the change event for the VAPP Category select element
+    $("body").on("change", "#add_var_functional_area_id", function () {
+        console.log("Functional Area Changed *******************************");
+        var varFaId = $(this).val();
+        var varFaText = $(this).find("option:selected").text();
+        console.log("Selected Fa Text:", varFaText);
+        // var varMatchId = $(this).val();
+        // var  = $("#match_Fa_id").val();
+        var varParkingId = $("#add_var_parking_id").val();
+
+        console.log("Selected Fa ID:", varFaId);
+        console.log("Selected Parking ID:", varParkingId);
+        // $("#add_requested_vapp_a5").prop("disabled", true);
+        // $("#add_requested_vapp_a4").prop("disabled", true);
+        // $("#add_requested_vapp_20").prop("disabled", true);
+        // $("#add_requested_vapp_hanger").prop("disabled", true);
+
+        if (varFaId) {
+            $.ajax({
+                url: "/get-pariking-by-fa",
+                type: "GET",
+                data: {
+                    var_fa_id: varFaId,
+                    // match_id: varMatchId,
+                },
+                success: function (data) {
+                    console.log("data", data);
+                    const vappParkingCodeOptions =
+                        data.variationParkingCode.map((item) => ({
+                            value: item.parking_id,
+                            label: item.parking_code,
+                            // selected: item.match_code === "ALL" ? true : false,
+                        }));
+
+                    vappParkingCodeChoices.clearStore();
+                    vappParkingCodeChoices.setChoices(
+                        vappParkingCodeOptions,
+                        "value",
+                        "label",
+                        true
+                    );
+                },
+                error: function () {
+                    vappParkingCodeChoices.clearStore();
+                    vappParkingCodeChoices.setChoices(
+                        [
+                            {
+                                value: "",
+                                label: "Failed to load Parking Codes",
+                                disabled: true,
+                            },
+                        ],
+                        "value",
+                        "label",
+                        true
+                    );
+                },
+            });
+        } else {
+            vappParkingCodeChoices.clearStore();
+            vappParkingCodeChoices.setChoices(
+                [{ value: "", label: "Select a VAPP Code", disabled: false }],
+                "value",
+                "label",
+                true
+            );
+        }
+    });
+
+    // Handle the change event for the VAPP Category select element
     $("body").on("change", "#add_var_category_id", function () {
         console.log("Category ID Changed");
         var varCategoryId = $(this).val();
@@ -238,11 +319,6 @@ $(document).ready(function () {
 
         console.log("Selected Match ID:", varMartchId);
 
-        $("#add_requested_vapp_a5").prop("disabled", true);
-        $("#add_requested_vapp_a4").prop("disabled", true);
-        $("#add_requested_vapp_20").prop("disabled", true);
-        $("#add_requested_vapp_hanger").prop("disabled", true);
-
         if (varMartchId) {
             $.ajax({
                 url: "/get-venues",
@@ -268,20 +344,20 @@ $(document).ready(function () {
                         true
                     );
 
-                    const vappFuncitonalAreaOptions = data.functional_areas.map(
-                        (item) => ({
-                            value: item.id,
-                            label: item.title,
-                        })
-                    );
+                    // const vappFuncitonalAreaOptions = data.functional_areas.map(
+                    //     (item) => ({
+                    //         value: item.id,
+                    //         label: item.title,
+                    //     })
+                    // );
 
-                    vappFunctionalAreaChoices.clearStore();
-                    vappFunctionalAreaChoices.setChoices(
-                        vappFuncitonalAreaOptions,
-                        "value",
-                        "label",
-                        true
-                    );
+                    // vappFunctionalAreaChoices.clearStore();
+                    // vappFunctionalAreaChoices.setChoices(
+                    //     vappFuncitonalAreaOptions,
+                    //     "value",
+                    //     "label",
+                    //     true
+                    // );
                 },
                 error: function () {
                     vappVenueChoices.clearStore();
@@ -310,7 +386,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#add_var_functional_area_id").on("change", function () {
+    $("#add_var_functional_area_idxx").on("change", function () {
         var varMatchId = $("#add_var_category_id").val();
         var varVenueId = $("#add_var_venue_id").val();
         var varParkingId = $("#add_var_parking_id").val();
@@ -427,63 +503,66 @@ $(document).ready(function () {
         // }
     });
 
-    //             $.each(data.variation.vapp_sizes, function (key, value) {
-    //                 console.log("Vapp Size Key:", key, "Value:", value);
-    //                 console.log("Vapp Size Value:", value.title);
-    //                 if (value.title === "A5") {
-    //                     $("#add_requested_vapp_a5").prop("disabled", false);
-    //                 } else {
-    //                     $("#add_requested_vapp_a5").prop("disabled", true);
-    //                 }
-    //                 if (value.title === "A4") {
-    //                     $("#add_requested_vapp_a4").prop("disabled", false);
-    //                 } else {
-    //                     $("#add_requested_vapp_a4").prop("disabled", true);
-    //                 }
-    //                 if (value.title === "20x20") {
-    //                     $("#add_requested_vapp_20").prop("disabled", false);
-    //                 } else {
-    //                     $("#add_requested_vapp_20").prop("disabled", true);
-    //                 }
-    //                 if (value.title === "Hanger") {
-    //                     $("#add_requested_vapp_hanger").prop("disabled", false);
-    //                 } else {
-    //                     $("#add_requested_vapp_hanger").prop("disabled", true);
-    //                 }
-    //             });
-    //         },
-    //         error: function () {
-    //             alert("Variation not found");
-    //             vappMatchChoices.clearStore();
-    //             vappMatchChoices.setChoices(
-    //                 [
-    //                     {
-    //                         value: "",
-    //                         label: "Failed to load venues",
-    //                         disabled: true,
-    //                     },
-    //                 ],
-    //                 "value",
-    //                 "label",
-    //                 true
-    //             );
-    //         },
-    //     });
+    $("#add_var_venue_id").on("change", function () {
+        var varMatchId = $("#add_var_category_id").val();
+        var varVenueId = $("#add_var_venue_id").val();
+        var varParkingId = $("#add_var_parking_id").val();
 
-    //     // if (varMatchId) {
-    //     //     $.ajax({
-    //     //         url: "/vapp/admin/booking/get/booking/" + varMatchId,
-    //     //         type: "GET",
-    //     //         success: function (data) {
-    //     //             console.log("data", data);
-    //     //             $("#add_var_booking_id").val(data.booking_id);
-    //     //         },
-    //     //         error: function () {
-    //     //             $("#add_var_booking_id").val("");
-    //     //         },
-    //     //     });
-    //     // } else {
-    //     //     $("#add_var_booking_id").val("");
-    //     // }
-    // });
+        console.log("Selected Venue ID:", varVenueId);
+        console.log("Selected Parking ID:", varParkingId);
+        console.log("Selected Match Category ID:", varMatchId);
+        if (varVenueId && varMatchId && varParkingId) {
+            $.ajax({
+                url: "/get-variation",
+                method: "GET",
+                data: {
+                    parking_id: varParkingId,
+                    venue_id: varVenueId,
+                    match_category_id: varMatchId,
+                },
+                success: function (data) {
+                    console.log("data", data);
+                    $("#add_variation_id").val(data.variation.id);
+                    const vappVappSizeOptions = data.variation.vapp_sizes.map(
+                        (item) => ({
+                            value: item.id,
+                            label: item.title,
+                            // selected: item.match_code === "ALL" ? true : false,
+                        })
+                    );
+
+                    vappVappSizeChoices.clearStore();
+                    vappVappSizeChoices.setChoices(
+                        vappVappSizeOptions,
+                        "value",
+                        "label",
+                        true
+                    );
+                },
+                error: function () {
+                    vappVappSizeChoices.clearStore();
+                    vappVappSizeChoices.setChoices(
+                        [
+                            {
+                                value: "",
+                                label: "Failed to load sizes",
+                                disabled: true,
+                            },
+                        ],
+                        "value",
+                        "label",
+                        true
+                    );
+                },
+            });
+        } else {
+            vappVenueChoices.clearStore();
+            vappVenueChoices.setChoices(
+                [{ value: "", label: "Select a Venue", disabled: false }],
+                "value",
+                "label",
+                true
+            );
+        }
+    });
 });

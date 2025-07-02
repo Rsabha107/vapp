@@ -286,6 +286,8 @@ class BookingController extends Controller
     public function create()
     {
         $user = Auth::user();
+        $user_fa = $user->fa;
+        // dd($fa);
         $fa = $user->fa->pluck('id')->toArray();
         // $venueid = [6];
         // $fa1 = $fa->toArray();
@@ -294,17 +296,31 @@ class BookingController extends Controller
         //     ->distinct()
         //     ->get();
 
-        // pupulate the parking codes based on the functional areas
-        $varParkingCode = ParkingMaster::with('functional_areas')
+        // // pupulate the parking codes based on the functional areas
+        // $varParkingCode = VappVariation::with('functional_areas')
+        //     ->when($fa, function ($query, $fa) {
+        //         Log::info('inside when');
+        //         Log::info($fa);
+        //         $query->whereHas('functional_areas', function ($q2) use ($fa) {
+        //             $q2->whereIn('fa_id', $fa)
+        //                 ->where('event_id', session()->get('EVENT_ID'));
+        //         });
+        //     })->distinct('parking_id')->get();
+        // // ->distinct('parking_id');
+
+        $varParkingCode = VappVariation::with('functional_areas', 'parking')
             ->when($fa, function ($query, $fa) {
-                Log::info('inside when');
-                Log::info($fa);
                 $query->whereHas('functional_areas', function ($q2) use ($fa) {
-                    $q2->whereIn('functional_area_id', $fa)
+                    $q2->whereIn('fa_id', $fa)
                         ->where('event_id', session()->get('EVENT_ID'));
                 });
             })
-            ->get();
+            ->get()
+            ->unique('parking_id');
+
+
+        // $varParkingCode =
+        //     dd($varParkingCode);
 
         $matchCategories = MatchCategory::all();
 
@@ -378,10 +394,36 @@ class BookingController extends Controller
         // }
         // dd($variationRecord->vapp_sizes);
 
+        $userFa = $user_fa;
         return view('vapp.admin.booking.create', compact(
             'varParkingCode',
-            'matchCategories' //, 'venues', 'varMatchCode', 'varMatchCategoryId', 'matchs', 'variationRecord'
+            'matchCategories',
+            'userFa',
         ));
+    }
+
+    // get vairations for the parking code selected and display the match category to choose from
+    public function getParkingCodeByFa(Request $request)
+    {
+        Log::info('inside getParkingCodeByFa');
+        Log::info($request->all());
+        // $user = Auth::user();
+
+        // get the parking based on the functional areas from Variations
+        $results = VappVariation::join('parking_master as pm', 'vapp_variations.parking_id', '=', 'pm.id')
+            ->join('vapp_variation_fa as favv', 'vapp_variations.id', '=', 'favv.vapp_variation_id')
+            ->where('favv.fa_id', '=', $request->var_fa_id)
+            ->where('vapp_variations.event_id', session()->get('EVENT_ID'))
+            ->select('vapp_variations.parking_id', 'pm.parking_code')
+            ->distinct()
+            ->get();
+
+        // $variationCategory = VappVariation::with('match_category')
+        //     ->where('parking_id', $request->parking_id)
+        //     ->where('event_id', session()->get('EVENT_ID'))
+        //     ->get();
+
+        return response()->json(['variationParkingCode' => $results]);
     }
 
     // get vairations for the parking code selected and display the match category to choose from
@@ -831,7 +873,7 @@ class BookingController extends Controller
 
         // dd($collected_vaps, $rfc_vaps);
         $inv_total_collected_vaps = $inventory_collected_vaps + $inventory_rfc_vaps;
-        $inv_total_available_vaps = $inventory->printed_vaps - $inv_total_collected_vaps;
+        $inv_total_available_vaps = $inventory?->printed_vaps - $inv_total_collected_vaps;
 
         $capacity = get_totals_capacity($vapp->event_id, $vapp->venue_id,  $vapp->vapp_size_id,  $vapp->parking_id, $vapp->variation_id, 'c');
         $approved = get_totals($vapp->event_id, $vapp->venue_id,  $vapp->vapp_size_id,  $vapp->parking_id, $vapp->variation_id, 'Approved');

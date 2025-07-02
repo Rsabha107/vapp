@@ -113,6 +113,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/get-matches', 'getMatchesFromMatchCategory')->name('vapp.admin.booking.get.matches');
             Route::get('/get-venues', 'getVenuesFromMatch')->name('vapp.admin.booking.get.venues');
             Route::get('/get-variation', 'getVariation')->name('vapp.admin.booking.get.variation');
+            Route::get('/get-pariking-by-fa', 'getParkingCodeByFa')->name('vapp.admin.booking.get.parking.by.fa');
             Route::get('/get-parking-color', 'getParkingColor')->name('vapp.admin.parking.get.color');
 
             // update booking status
@@ -146,7 +147,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             // Route::get('/cms/admin/orders/attachments/{id}', 'getAttachmentView')->name('cms.admin.orders.attachments');
         });
 
-                Route::controller(VappSizeController::class)->group(function () {
+        Route::controller(VappSizeController::class)->group(function () {
             // Vehicle Type
             Route::get('/vapp/setting/vapp_size', 'index')->name('vapp.setting.vapp_size');
             Route::get('/vapp/setting/vapp_size/list', 'list')->name('vapp.setting.vapp_size.list');
@@ -191,14 +192,13 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             // end inventroy to this variation
 
             Route::get('/vapp/setting/parking/variation/mv/get/{id}', 'getView')->name('vapp.setting.parking.variation.get.mv');
-            
+
             // functional areas and vapp sizes associated with parking code
             Route::get('/vapp/setting/parking/code/functional_areas/{id}', 'getAssicatedFunctionalAreas')->name('vapp.setting.parking.code.functional_areas');
             Route::get('vapp_get_parking_code_from_event/{id}', 'getParkingCodeFromEvent')->name('vapp.setting.parking.code.get_from_event');
-
         });
 
-                // VAPP Print Batch
+        // VAPP Print Batch
         Route::controller(VappPrintBatchConroller::class)->group(function () {
             Route::get('/vapp/setting/print/batch', 'index')->name('vapp.setting.print.batch');
             Route::get('/vapp/setting/print/batch/list', 'list')->name('vapp.setting.print.batch.list');
@@ -210,7 +210,6 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
 
             // functional areas associated with parking code
             Route::get('/vapp/setting/print/batch/vapp_sizes/{id}', 'getAssicatedVaapSizes')->name('vapp.setting.print.batch.vapp_sizes');
-
         });
 
         // Parking Capacity
@@ -314,8 +313,6 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('general/settings/currency/delete/{id}', 'delete')->name('general.settings.currency.delete');
         });
     });
-
-
 });
 
 

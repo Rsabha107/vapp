@@ -105,8 +105,8 @@
             <div class="bg-white p-3 border rounded shadow-sm">
                 <h6>Inventory Infos</h6>
                 <ul class="list-unstyled">
-                    <li>🖨️ Total to be printed: {{ $inventory->total_vaps }}</li>
-                    <li>✅ VAPPs Printed: {{ $inventory->printed_vaps }}</li>
+                    <li>🖨️ Total to be printed: {{ $inventory?->total_vaps }}</li>
+                    <li>✅ VAPPs Printed: {{ $inventory?->printed_vaps }}</li>
                     <li>📤 VAPPs Distributed: {{ $inv_total_collected_vaps }}</li>
                     <li>📦 Available Stock: {{ $inv_total_available_vaps }}</li>
                 </ul>

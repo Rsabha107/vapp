@@ -37,6 +37,7 @@
                             <!-- <th data-sortable="true" data-field="id" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('id', 'ID') ?></th> -->
                             <th data-sortable="true" data-field="event">Event</th>
                             <th data-sortable="true" data-field="venue">Venue</th>
+                            <th data-sortable="true" data-field="match_category">Category</th>
                             <th data-sortable="true" data-field="match_code">Match Code</th>
                             <th data-sortable="true" data-field="match_description">Description</th>
                             <th data-sortable="true" data-field="match_date">Match Date</th>

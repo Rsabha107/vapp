@@ -28,6 +28,11 @@
                     :forLoopCollection="$venues" itemIdForeach="id" itemTitleForeach="title" style="" addDynamicButton="0" />
             </div>
             <div class="row mb-3">
+                <x-formy.form_select class="col-sm-6 col-md-12" floating="1" selectedValue="{{ $match->match_category_id }}"
+                    name="match_category_id" elementId="add_match_category_id" label="Match Category" required=""
+                    :forLoopCollection="$matchCategories" itemIdForeach="id" itemTitleForeach="title" style="" addDynamicButton="0" />
+            </div>
+            <div class="row mb-3">
                 <x-formy.form_textarea class="col-sm-6 col-md-12" floating="1" inputValue="{{ $match->match_description }}"
                     name="match_description" elementId="add_match_description" inputType="text" label="Match Description" required="required" disabled="0" />
             </div>

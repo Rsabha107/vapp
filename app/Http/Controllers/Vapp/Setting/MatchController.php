@@ -8,6 +8,7 @@ use App\Models\Vapp\Venue;
 use App\Models\Vapp\ParkingCapacity;
 use App\Models\Vapp\DeliveryVehicleType;
 use App\Models\Vapp\Event;
+use App\Models\Vapp\MatchCategory;
 use App\Models\Vapp\MatchList;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -25,8 +26,9 @@ class MatchController extends Controller
         $matches = MatchList::all();
         $events = Event::all();
         $venues = Venue::all();
+        $match_categories = MatchCategory::all();
 
-        return view('vapp.setting.match.list', compact('matches', 'venues', 'events'));
+        return view('vapp.setting.match.list', compact('matches', 'venues', 'events', 'match_categories'));
     }
 
     public function get($id)
@@ -133,6 +135,7 @@ class MatchController extends Controller
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$venue->id. '</div>',
                 'event' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->event?->name . '</div>',
                 'venue' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->venue?->title . '</div>',
+                'match_category' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->match_category?->title . '</div>',
                 'match_code' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->match_code . '</div>',
                 'match_description' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->match_description . '</div>',
                 'match_date' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->match_date . '</div>',
@@ -181,6 +184,7 @@ class MatchController extends Controller
             }
 
             $op->match_code = $request->match_code;
+            $op->match_category_id = $request->match_category_id;
             $op->match_description = $request->match_description;
             if ($request->match_date == null) {
                 $op->match_date = Carbon::now()->toDateString();
@@ -232,6 +236,7 @@ class MatchController extends Controller
             $op->venue_id = $request->venue_id;
             $op->event_id = $request->event_id;
             $op->match_code = $request->match_code;
+            $op->match_category_id = $request->match_category_id;
             $op->match_description = $request->match_description;
             $op->match_date = Carbon::createFromFormat('d/m/Y', $request->match_date)->toDateString();
             $op->updated_by = $user_id;
@@ -253,10 +258,10 @@ class MatchController extends Controller
         $ws->delete();
 
         $error = false;
-        $message = 'Parking deleted succesfully.';
+        $message = 'Match deleted succesfully.';
 
         $notification = array(
-            'message'       => 'Parking deleted successfully',
+            'message'       => 'Match deleted successfully',
             'alert-type'    => 'success'
         );
 
@@ -269,11 +274,13 @@ class MatchController extends Controller
         $match = MatchList::find($id);
         $events = Event::all();
         $venues = Venue::all();
+        $match_categories = MatchCategory::all();
 
         $view = view('/vapp/setting/match/mv/edit', [
             'match' => $match,
             'venues' => $venues,
             'events' => $events,
+            'matchCategories' => $match_categories,
         ])->render();
 
         return response()->json(['view' => $view]);

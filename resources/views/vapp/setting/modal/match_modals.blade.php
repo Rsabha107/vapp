@@ -31,7 +31,7 @@
     </a>
     <x-vapp.admin.admin-match-drawer id="" formAction="{{ route('vapp.setting.match.store') }}"
         formId="add_match_form"
-        :events="$events" :venues="$venues"/>
+        :events="$events" :venues="$venues" :matchCategories="$match_categories" />
 
 
 </div>
